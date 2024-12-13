@@ -4,6 +4,11 @@ import nltk
 from nltk.corpus import stopwords               # Для удаления стоп-слов
 from nltk.stem.snowball import SnowballStemmer  # Стеммер для русского языка
 import re
+import os
+import sys
+
+# Чтобы не засирать системыне переменные
+os.environ['PYSPARK_PYTHON'] = sys.executable
 
 # Инициализация Spark
 spark = SparkSession\
