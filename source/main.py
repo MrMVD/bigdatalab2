@@ -1,21 +1,21 @@
-from pyspark import RDD,SparkContext, SparkConf     # Для инициализации Spark
+from pyspark import RDD
 from pyspark.sql import SparkSession
 import nltk
 from nltk.corpus import stopwords               # Для удаления стоп-слов
 from nltk.stem.snowball import SnowballStemmer  # Стеммер для русского языка
 import re
 
-
 # Инициализация Spark
-conf = SparkConf().setAppName("RussianTextAnalysis").setMaster("local[*]")
-sc = SparkContext(conf=conf)
-spark = SparkSession.builder.config(conf=conf).getOrCreate()
+spark = SparkSession\
+        .builder\
+        .appName("RussianTextAnalysis")\
+        .getOrCreate()
 
 # Загрузка зависимостей NLTK
 nltk.download("stopwords")
 
 # Загрузка файла как RDD 
-text_rdd = sc.textFile("../text.txt" )
+text_rdd = spark.read.text("../text.txt" ).rdd.map(lambda r: r[0])
 
 # стоп-слов для русского языка
 stop_words = set(stopwords.words("russian"))
